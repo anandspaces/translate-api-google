@@ -4,13 +4,13 @@ from starlette.routing import Route
 from starlette.requests import Request
 from starlette.middleware.cors import CORSMiddleware
 from google.cloud import translate_v2 as translate
-
+import html
 client = translate.Client.from_service_account_json("key.json")
 
 
 def translate_text(text, target="hi"):
     result = client.translate(text, target_language=target)
-    return result["translatedText"]
+    return html.unescape(result["translatedText"])
 
 
 async def root(request: Request):
